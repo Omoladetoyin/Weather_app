@@ -1,62 +1,3 @@
-//  const express = require("express");
-//  const https = require("https");
-//  const bodyParser = require("body-parser");
-//  require("dotenv").config();
-
-
-//  const app = express();
-
-//  app.use(bodyParser.urlencoded({extended: true}));
-
-// app.get("/", function(req, res) {
-//     res.sendFile(__dirname + "/index.html")
-// })
-
-// app.post("/", function(req, res){
-//     const query = req.body.cityName;
-//     const apikey = process.env.OPENWEATHER_API_KEY;
-//     const unit = "metric"
-//     const url = "https://api.openweathermap.org/data/2.5/weather?q=" + query + "&appid=" + apikey + "&units=" + unit;
-//     https.get(url, function(response){
-//         console.log(response.statusCode);
-
-//         response.on("data", function(data){
-//             const weatherData = JSON.parse(data);
-
-//             const temp = weatherData.main.temp;
-//             const weatherDescription = weatherData.weather[0].description;
-//             const icon = weatherData.weather[0].icon;
-//             const imageURL = `http://openweathermap.org/img/wn/${icon}@2x.png`
-
-
-//             // res.write(`<h1 style = " color: red; ">The weather description is ${weatherDescription}</h1>`)
-//             // res.write(`<h1>The temperature in ${query} is ${temp} degrees Celcius</h3>`)
-//             // res.write(`<img src="${imageURL}" alt="Weather Icon">`)
-//             res.send(`<html>
-//                 <head>
-//                 <style>
-//                 body {
-//                 background-color: black;
-//                 }
-//                 </style>
-//                 </head>
-//                 <body>
-//                 <h1 style = " color: purple; ">The weather description is ${weatherDescription}</h1>
-//                 <h3 style = " color: ">The temperature in ${query} is ${temp} degrees Celcius</h3>
-//                 <img src="${imageURL}" alt="Weather Icon">
-//                 </body>
-//                 </html>`)
-//         })
-//     })
-
-// })
-
-
-//  app.listen(6500, function() {
-//     console.log("Server is running on port 6500");
-//  })
-
-
 const express = require("express");
 const https = require("https");
 const bodyParser = require("body-parser");
@@ -65,7 +6,7 @@ require("dotenv").config();
 const app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static('public')); // For serving static files like CSS/images
+app.use(express.static('public')); 
 
 app.get("/", function(req, res) {
     res.sendFile(__dirname + "/index.html");
@@ -83,7 +24,6 @@ app.post("/", function(req, res){
         response.on("data", function(data){
             const weatherData = JSON.parse(data);
             
-            // Check if city was found
             if (weatherData.cod !== 200) {
                 return res.send(`
                     <html>
@@ -154,7 +94,6 @@ app.post("/", function(req, res){
             const windSpeed = weatherData.wind.speed;
             const feelsLike = weatherData.main.feels_like;
             
-            // Determine background gradient based on temperature
             let bgGradient;
             if (temp < 10) {
                 bgGradient = "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)"; // Cold
